@@ -1,0 +1,36 @@
+<form [formGroup]="namesForm" (ngSubmit)="onSaveNames()">
+  <div class="input-group">
+    <tui-input
+      required
+      formControlName="name-1"
+      [tuiTextfieldCleaner]="true"
+      [tuiTextfieldLabelOutside]="true"
+    >
+      Your name
+      <input tuiTextfieldLegacy type="text" />
+    </tui-input>
+
+    <tui-input
+      required
+      formControlName="name-2"
+      [tuiTextfieldCleaner]="true"
+      [tuiTextfieldLabelOutside]="true"
+    >
+      Your name
+      <input tuiTextfieldLegacy type="text" />
+    </tui-input>
+  </div>
+
+  <p #errorNames class="error-names">Please enter both names</p>
+
+  <button
+    #saveNamesBtn
+    class="save-names-btn"
+    appearance="outline"
+    tuiAppearanceMode="checked"
+    tuiButton
+    type="submit"
+  >
+    Save names
+  </button>
+</form>
