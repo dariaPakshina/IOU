@@ -16,6 +16,8 @@ import {
 import { TuiTextfield, TuiButton } from '@taiga-ui/core';
 import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { ApiService } from '../api.service';
+import { Names } from '../names.model';
+import { catchError, last, of, skip } from 'rxjs';
 
 @Component({
   selector: 'app-names',
@@ -33,6 +35,8 @@ import { ApiService } from '../api.service';
 })
 export class NamesComponent implements OnInit {
   apiService = inject(ApiService);
+  editingMode = false;
+  lastID!: number;
 
   @ViewChild('saveNamesBtn', { static: false })
   saveNamesBtn!: ElementRef<HTMLButtonElement>;
@@ -51,15 +55,36 @@ export class NamesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.namesForm.valueChanges.subscribe(() => {
-      this.namesBtnStyling(this.saveNamesBtn, 'block', '1');
-    });
-  }
+    this.lastID = +window.localStorage.getItem('id')!;
+    this.apiService
+      // .getNames(this.lastID)
+      .getNames(2)
+      .pipe(
+        catchError((error) => {
+          console.error('An unexpected error occurred:', error);
+          return of(null); // return a null observable to continue execution
+        })
+      )
+      .subscribe((response) => {
+        if (response) {
+          console.log('Response from API: ', response);
 
-  initForm() {
-    // let name1 = ''
-    // let name2 = ''
-    // this.namesForm.patchValue({})
+          this.namesForm.valueChanges.pipe(skip(1)).subscribe(() => {
+            this.namesBtnStyling(this.saveNamesBtn, 'block', '1');
+          });
+
+          const data = response as Names;
+          this.namesForm.patchValue({
+            'name-1': data.name1,
+            'name-2': data.name2,
+          });
+        } else {
+          console.warn('No data found, initializing empty form');
+          this.namesForm.valueChanges.subscribe(() => {
+            this.namesBtnStyling(this.saveNamesBtn, 'block', '1');
+          });
+        }
+      });
   }
 
   onSaveNames() {
@@ -68,14 +93,36 @@ export class NamesComponent implements OnInit {
       return;
     }
 
-    console.log(this.namesForm.value); // {name-1: '', name-2: 'sdcds'}
-    this.apiService
-      .postNames(
-        this.namesForm.value['name-1']!,
-        this.namesForm.value['name-2']!
-      )
-      .subscribe((response) => console.log(response)); // {name1: 'aaa', name2: 'eee', id: 2}
+    console.log('namesForm values: ', this.namesForm.value, this.lastID); // {name-1: '', name-2: 'sdcds'}
 
+    // if (this.lastID) {
+    const newNames = {
+      name1: this.namesForm.value['name-1']!,
+      name2: this.namesForm.value['name-2']!,
+    };
+    this.apiService
+      // .updateNames(this.lastID, newNames)
+      .updateNames(2, newNames)
+      .subscribe((response) => console.log('Response from API: ', response));
+    // } else {
+    // this.apiService
+    //   .postNames(
+    //     this.namesForm.value['name-1']!,
+    //     this.namesForm.value['name-2']!
+    //   )
+    //   .subscribe((response) => {
+    //     console.log('Response from API: ', response);
+    //     const data = response as Names;
+    //     this.lastID = data.id;
+    //     window.localStorage.setItem('id', this.lastID.toString());
+    //     console.log(
+    //       'ID set: ',
+    //       this.lastID,
+    //       +window.localStorage.getItem('id')!
+    //     );
+    //   }); // {name1: 'aaa', name2: 'eee', id: 2}
+
+    // }
     this.namesBtnStyling(this.saveNamesBtn, 'none', '0');
     this.namesBtnStyling(this.errorNames, 'none', '0');
   }
