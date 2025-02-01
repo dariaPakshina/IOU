@@ -1,1 +1,69 @@
-<p>owe works!</p>
+<div class="container">
+  <div class="flex-element">
+    <p>I owe...</p>
+    <tui-textfield [tuiTextfieldCleaner]="false">
+      <input
+        tuiInputNumber
+        [min]="0"
+        [(ngModel)]="value"
+        (keydown.arrowDown)="onStep(-1)"
+        (keydown.arrowUp)="onStep(+1)"
+      />
+
+      <button
+        appearance="floating"
+        size="s"
+        tuiButton
+        type="button"
+        (click.prevent)="onStep(+100)"
+      >
+        + 100
+      </button>
+
+      <button
+        appearance="floating"
+        size="s"
+        tuiButton
+        type="button"
+        (click.prevent)="onStep(+1000)"
+      >
+        + 1000
+      </button>
+    </tui-textfield>
+    <button class="add-btn" size="s" tuiButton type="button">Add</button>
+  </div>
+
+  <div class="flex-element">
+    <p>I owe...</p>
+    <tui-textfield [tuiTextfieldCleaner]="false">
+      <input
+        tuiInputNumber
+        [min]="0"
+        [(ngModel)]="value2"
+        (keydown.arrowDown)="onStep2(-1)"
+        (keydown.arrowUp)="onStep2(+1)"
+      />
+
+      <button
+        appearance="floating"
+        size="s"
+        tuiButton
+        type="button"
+        (click.prevent)="onStep2(+100)"
+      >
+        + 100
+      </button>
+
+      <button
+        appearance="floating"
+        size="s"
+        tuiButton
+        type="button"
+        (click.prevent)="onStep2(+1000)"
+      >
+        + 1000
+      </button>
+    </tui-textfield>
+    <button class="add-btn" size="s" tuiButton type="button">Add</button>
+  </div>
+</div>

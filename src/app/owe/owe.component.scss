@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.flex-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+tui-textfield {
+  width: 100%;
+}
+
+.add-btn {
+  margin-top: 1rem;
+}
