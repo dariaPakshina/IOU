@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TuiButton, TuiTextfield } from '@taiga-ui/core';
 import { TuiInputNumber } from '@taiga-ui/kit';
+import { AddDebtService } from '../add-debt.service';
 
 @Component({
   selector: 'app-owe',
@@ -11,15 +12,31 @@ import { TuiInputNumber } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OweComponent {
-  protected value: number | null = 1_00;
+  addDebtService = inject(AddDebtService);
+
+  protected value: number = 1_00;
 
   protected onStep(step: number): void {
     this.value = Math.max(0, (this.value ?? 0) + step);
   }
 
-  protected value2: number | null = 1_00;
+  protected value2: number = 1_00;
 
   protected onStep2(step: number): void {
     this.value2 = Math.max(0, (this.value2 ?? 0) + step);
+  }
+
+  onAddDebt() {
+    const date = new Date();
+    const formatDate = date.toDateString().slice(4, 10);
+
+    this.addDebtService.addNewDebt(formatDate, this.value);
+  }
+
+  onAddDebt2() {
+    const date = new Date();
+    const formatDate = date.toDateString().slice(4, 10);
+
+    this.addDebtService.addNewDebt2(formatDate, this.value2);
   }
 }
