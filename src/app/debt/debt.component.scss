@@ -1,6 +1,48 @@
 .container {
   display: flex;
+  justify-content: center;
+  margin-top: 1rem;
   gap: 2rem;
-  justify-content: space-around;
-  margin-top: 2rem;
+  position: relative;
+}
+
+tui-chip {
+  margin-top: 1.5rem;
+}
+
+.table-total-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table {
+  height: fit-content;
+}
+
+.icon-btn {
+  align-self: flex-end;
+}
+
+[data-appearance="custom"] {
+  color: #fff;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+  font-weight: bold;
+}
+
+.final-chip {
+  position: absolute;
+  top: 99%;
+  left: 25%;
+}
+
+.to-zero-btn {
+  position: absolute;
+  bottom: -16%;
+  left: 35%;
 }

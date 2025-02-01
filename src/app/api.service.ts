@@ -45,4 +45,9 @@ export class ApiService {
   updateDebts(newDebts: Debt[]) {
     return this.http.patch(this.debtURL, newDebts);
   }
+
+  deleteDebts(id: number) {
+    const debtsURLid = `https://c30ef54092f604b0.mokky.dev/debt/${id}`;
+    return this.http.delete(debtsURLid);
+  }
 }

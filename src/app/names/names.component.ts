@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -17,7 +16,8 @@ import { TuiTextfield, TuiButton } from '@taiga-ui/core';
 import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { ApiService } from '../api.service';
 import { Names } from '../names.model';
-import { catchError, last, of, skip } from 'rxjs';
+import { catchError, of, skip } from 'rxjs';
+import { AddDebtService } from '../add-debt.service';
 
 @Component({
   selector: 'app-names',
@@ -35,6 +35,7 @@ import { catchError, last, of, skip } from 'rxjs';
 })
 export class NamesComponent implements OnInit {
   apiService = inject(ApiService);
+  addDebtService = inject(AddDebtService);
   editingMode = false;
   lastID!: number;
 
@@ -78,6 +79,8 @@ export class NamesComponent implements OnInit {
             'name-1': data.name1,
             'name-2': data.name2,
           });
+          this.addDebtService.name1 = data.name1;
+          this.addDebtService.name2 = data.name2;
         } else {
           console.warn('No data found, initializing empty form');
           this.namesForm.valueChanges.subscribe(() => {
@@ -104,6 +107,9 @@ export class NamesComponent implements OnInit {
       // .updateNames(this.lastID, newNames)
       .updateNames(2, newNames)
       .subscribe((response) => console.log('Response from API: ', response));
+
+    this.addDebtService.name1 = newNames.name1;
+    this.addDebtService.name2 = newNames.name2;
     // } else {
     // this.apiService
     //   .postNames(
