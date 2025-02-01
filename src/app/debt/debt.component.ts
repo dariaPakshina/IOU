@@ -54,8 +54,8 @@ export class DebtComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
 
-    this.data = this.addDebtService.getDebts().slice(-8);
-    this.data2 = this.addDebtService.getDebts2().slice(-8);
+    this.data = this.addDebtService.getDebts().slice(-5);
+    this.data2 = this.addDebtService.getDebts2().slice(-5);
 
     if (this.data.length > 0) {
       this.columns = Object.keys(this.data[0]);
@@ -66,7 +66,7 @@ export class DebtComponent implements OnInit, OnDestroy {
 
     this.subscription = this.addDebtService.dataChanged.subscribe(
       (debts: Debt[]) => {
-        this.data = [...debts].slice(-8);
+        this.data = [...debts].slice(-5);
         this.cdr.detectChanges();
         if (debts.length > 0) {
           this.columns = Object.keys(debts[0]);
@@ -76,7 +76,7 @@ export class DebtComponent implements OnInit, OnDestroy {
 
     this.subscription2 = this.addDebtService.data2Changed.subscribe(
       (debts: Debt[]) => {
-        this.data2 = [...debts].slice(-8);
+        this.data2 = [...debts].slice(-5);
         this.cdr.detectChanges();
         if (debts.length > 0) {
           this.columns2 = Object.keys(debts[0]);
