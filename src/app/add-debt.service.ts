@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Debt, DebtRes } from './debt.model';
-import { Subject } from 'rxjs';
+import { concatMap, finalize, from, Subject } from 'rxjs';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -112,13 +112,23 @@ export class AddDebtService {
     //   });
     // }
 
+    // this.ids.forEach((id) => {
+    //   this.apiService.deleteDebts(id).subscribe((response) => {
+    //     console.log('Response from API: ', response);
+    //   });
+    // });
+    // window.location.reload();
+
     console.log(this.ids);
 
-    this.ids.forEach((id) => {
-      this.apiService.deleteDebts(id).subscribe((response) => {
-        console.log('Response from API: ', response);
-      });
-    });
-    // window.location.reload();
+    from(this.ids)
+      .pipe(
+        concatMap((id) => this.apiService.deleteDebts(id)),
+        finalize(() => {
+          console.log('All debts are deleted');
+          window.location.reload();
+        })
+      )
+      .subscribe((response) => console.log('Deleted', response));
   }
 }

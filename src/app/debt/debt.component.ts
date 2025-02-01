@@ -1,4 +1,4 @@
-import { NgForOf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,11 +12,17 @@ import { AddDebtService } from '../add-debt.service';
 import { Debt } from '../debt.model';
 import { Subscription } from 'rxjs';
 import { TuiChip } from '@taiga-ui/kit';
-import { TuiButton, TuiIcon, TuiOption } from '@taiga-ui/core';
+import {
+  TuiButton,
+  TuiIcon,
+  TuiLoader,
+  tuiLoaderOptionsProvider,
+  TuiOption,
+} from '@taiga-ui/core';
 
 @Component({
   selector: 'app-debt',
-  imports: [NgForOf, TuiTable, TuiChip, TuiButton, TuiIcon, TuiOption],
+  imports: [NgForOf, TuiTable, TuiChip, TuiButton, TuiLoader, NgIf],
   templateUrl: './debt.component.html',
   styleUrl: './debt.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,10 +47,13 @@ export class DebtComponent implements OnInit, OnDestroy {
   whoOwes!: string;
   toWhomOwe!: string;
 
+  loading = false;
+
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.onCount();
+    this.loading = true;
+
     this.data = this.addDebtService.getDebts().slice(-8);
     this.data2 = this.addDebtService.getDebts2().slice(-8);
 
@@ -85,6 +94,8 @@ export class DebtComponent implements OnInit, OnDestroy {
         this.total2 = total;
       }
     );
+
+    this.onCount();
   }
 
   onCount() {
@@ -103,9 +114,12 @@ export class DebtComponent implements OnInit, OnDestroy {
       this.whoOwes = 'Никто не ';
       this.toWhomOwe = '';
     }
+
+    this.loading = false;
   }
 
   onZero() {
+    this.loading = true;
     this.addDebtService.deleteDebts();
   }
 
