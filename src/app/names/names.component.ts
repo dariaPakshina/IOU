@@ -12,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiTextfield, TuiButton } from '@taiga-ui/core';
+import { TuiTextfield, TuiButton, TUI_DARK_MODE } from '@taiga-ui/core';
 import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { ApiService } from '../api.service';
 import { Names } from '../names.model';
@@ -34,6 +34,8 @@ import { AddDebtService } from '../add-debt.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NamesComponent implements OnInit {
+  protected readonly darkMode = inject(TUI_DARK_MODE);
+
   apiService = inject(ApiService);
   addDebtService = inject(AddDebtService);
   editingMode = false;
@@ -131,5 +133,11 @@ export class NamesComponent implements OnInit {
     // }
     this.namesBtnStyling(this.saveNamesBtn, 'none', '0');
     this.namesBtnStyling(this.errorNames, 'none', '0');
+  }
+
+  onChangeVersion() {
+    console.log('toggle');
+    this.apiService.toggleVersion();
+    this.darkMode.set(!this.darkMode());
   }
 }

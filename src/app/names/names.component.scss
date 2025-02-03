@@ -11,7 +11,7 @@ tui-input {
 .input-group {
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .save-names-btn,
@@ -25,4 +25,8 @@ tui-input {
 
 .error-names {
   color: var(--tui-text-negative);
+}
+
+.icon-btn {
+  align-self: center;
 }
