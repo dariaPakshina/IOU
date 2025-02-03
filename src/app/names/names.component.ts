@@ -138,6 +138,6 @@ export class NamesComponent implements OnInit {
   onChangeVersion() {
     console.log('toggle');
     this.apiService.toggleVersion();
-    this.darkMode.set(!this.darkMode());
+    // this.darkMode.set(!this.darkMode());
   }
 }
