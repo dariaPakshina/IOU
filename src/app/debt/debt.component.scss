@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  gap: 0.8rem;
+  gap: 5rem;
 }
 
 tui-chip {
@@ -19,9 +19,9 @@ table {
   height: fit-content;
 }
 
-.icon-btn {
-  align-self: flex-end;
-}
+// .icon-btn {
+//   align-self: flex-end;
+// }
 
 [data-appearance="custom"] {
   color: #fff;

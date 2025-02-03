@@ -87,11 +87,13 @@ export class DebtComponent implements OnInit, OnDestroy {
     this.subscription3 = this.addDebtService.totalChanged.subscribe(
       (total: any) => {
         this.total = total;
+        this.onCount();
       }
     );
     this.subscription4 = this.addDebtService.total2Changed.subscribe(
       (total: any) => {
         this.total2 = total;
+        this.onCount();
       }
     );
 

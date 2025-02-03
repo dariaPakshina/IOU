@@ -6,11 +6,12 @@ form {
 
 tui-input {
   width: 100%;
+  max-width: 20rem;
 }
 
 .input-group {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
 }
 
