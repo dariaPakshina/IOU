@@ -31,6 +31,7 @@ export class OweComponent {
     const formatDate = date.toDateString().slice(4, 10);
 
     this.addDebtService.addNewDebt(formatDate, this.value);
+    this.value = 1_00;
   }
 
   onAddDebt2() {
@@ -38,5 +39,6 @@ export class OweComponent {
     const formatDate = date.toDateString().slice(4, 10);
 
     this.addDebtService.addNewDebt2(formatDate, this.value2);
+    this.value2 = 1_00;
   }
 }

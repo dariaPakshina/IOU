@@ -12,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiTextfield, TuiButton, TUI_DARK_MODE } from '@taiga-ui/core';
+import { TuiTextfield, TuiButton } from '@taiga-ui/core';
 import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { ApiService } from '../api.service';
 import { Names } from '../names.model';
@@ -34,7 +34,7 @@ import { AddDebtService } from '../add-debt.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NamesComponent implements OnInit {
-  protected readonly darkMode = inject(TUI_DARK_MODE);
+  
 
   apiService = inject(ApiService);
   addDebtService = inject(AddDebtService);
@@ -58,20 +58,14 @@ export class NamesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.lastID = +window.localStorage.getItem('id')!;
+    this.lastID = 2;
     this.apiService
-      // .getNames(this.lastID)
       .getNames(2)
       .pipe(
-        catchError((error) => {
-          console.error('An unexpected error occurred:', error);
-          return of(null); // return a null observable to continue execution
-        })
+        catchError(() => of(null))
       )
       .subscribe((response) => {
         if (response) {
-          console.log('Response from API: ', response);
-
           this.namesForm.valueChanges.pipe(skip(1)).subscribe(() => {
             this.namesBtnStyling(this.saveNamesBtn, 'block', '1');
           });
@@ -84,7 +78,6 @@ export class NamesComponent implements OnInit {
           this.addDebtService.name1 = data.name1;
           this.addDebtService.name2 = data.name2;
         } else {
-          console.warn('No data found, initializing empty form');
           this.namesForm.valueChanges.subscribe(() => {
             this.namesBtnStyling(this.saveNamesBtn, 'block', '1');
           });
@@ -98,17 +91,13 @@ export class NamesComponent implements OnInit {
       return;
     }
 
-    console.log('namesForm values: ', this.namesForm.value, this.lastID); // {name-1: '', name-2: 'sdcds'}
-
-    // if (this.lastID) {
     const newNames = {
       name1: this.namesForm.value['name-1']!,
       name2: this.namesForm.value['name-2']!,
     };
     this.apiService
-      // .updateNames(this.lastID, newNames)
       .updateNames(2, newNames)
-      .subscribe((response) => console.log('Response from API: ', response));
+      .subscribe();
 
     this.addDebtService.name1 = newNames.name1;
     this.addDebtService.name2 = newNames.name2;
@@ -130,14 +119,7 @@ export class NamesComponent implements OnInit {
     //     );
     //   }); // {name1: 'aaa', name2: 'eee', id: 2}
 
-    // }
     this.namesBtnStyling(this.saveNamesBtn, 'none', '0');
     this.namesBtnStyling(this.errorNames, 'none', '0');
-  }
-
-  onChangeVersion() {
-    console.log('toggle');
-    this.apiService.toggleVersion();
-    // this.darkMode.set(!this.darkMode());
   }
 }

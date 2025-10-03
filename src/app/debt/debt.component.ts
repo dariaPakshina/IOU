@@ -54,22 +54,13 @@ export class DebtComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
 
-    this.data = this.addDebtService.getDebts().slice(-5);
-    this.data2 = this.addDebtService.getDebts2().slice(-5);
-
-    if (this.data.length > 0) {
-      this.columns = Object.keys(this.data[0]);
-    }
-    if (this.data2.length > 0) {
-      this.columns2 = Object.keys(this.data2[0]);
-    }
 
     this.subscription = this.addDebtService.dataChanged.subscribe(
       (debts: Debt[]) => {
         this.data = [...debts].slice(-5);
         this.cdr.detectChanges();
         if (debts.length > 0) {
-          this.columns = Object.keys(debts[0]);
+          this.columns = [...Object.keys(debts[0]), 'actions'];
         }
       }
     );
@@ -79,7 +70,7 @@ export class DebtComponent implements OnInit, OnDestroy {
         this.data2 = [...debts].slice(-5);
         this.cdr.detectChanges();
         if (debts.length > 0) {
-          this.columns2 = Object.keys(debts[0]);
+          this.columns2 = [...Object.keys(debts[0]), 'actions'];
         }
       }
     );
@@ -88,15 +79,20 @@ export class DebtComponent implements OnInit, OnDestroy {
       (total: any) => {
         this.total = total;
         this.onCount();
+        this.cdr.detectChanges();
       }
     );
     this.subscription4 = this.addDebtService.total2Changed.subscribe(
       (total: any) => {
         this.total2 = total;
         this.onCount();
+        this.cdr.detectChanges();
       }
     );
 
+    // Инициируем загрузку после подписок, чтобы не потерять первые эмиты
+    this.addDebtService.getDebts();
+    this.data2 = this.addDebtService.getDebts2().slice(-5);
     this.onCount();
   }
 
@@ -123,6 +119,18 @@ export class DebtComponent implements OnInit, OnDestroy {
   onZero() {
     this.loading = true;
     this.addDebtService.deleteDebts();
+  }
+
+  onDelete(user: 1 | 2, index: number) {
+    if (user === 1) {
+      const offset = this.addDebtService.data.length - this.data.length;
+      const globalIndex = offset + index;
+      this.addDebtService.deleteDebt(1, globalIndex);
+      return;
+    }
+    const offset = this.addDebtService.data2.length - this.data2.length;
+    const globalIndex = offset + index;
+    this.addDebtService.deleteDebt(2, globalIndex);
   }
 
   ngOnDestroy(): void {

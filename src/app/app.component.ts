@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { TUI_DARK_MODE, TuiRoot } from '@taiga-ui/core';
+import { Component } from '@angular/core';
+import { TuiRoot } from '@taiga-ui/core';
 import { NamesComponent } from './names/names.component';
 import { OweComponent } from './owe/owe.component';
 import { DebtComponent } from './debt/debt.component';
@@ -13,5 +13,4 @@ import { DebtComponent } from './debt/debt.component';
 })
 export class AppComponent {
   title = 'IOU';
-  protected readonly darkMode = inject(TUI_DARK_MODE);
 }

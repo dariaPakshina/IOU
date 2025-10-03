@@ -30,31 +30,40 @@ export class AddDebtService {
   name1!: string;
   name2!: string;
 
-  ids: number[] = [];
+  ids1: number[] = [];
+  ids2: number[] = [];
 
   getDebts() {
+    // сбрасываем состояние перед загрузкой
+    this.data = [];
+    this.data2 = [];
+    this.total = 0;
+    this.total2 = 0;
+    this.ids1 = [];
+    this.ids2 = [];
+
     this.apiService.getDebts().subscribe((debts) => {
       const data = debts as DebtRes[];
       data.forEach((debt) => {
         if (debt.user === 1) {
-          this.ids.push(debt.id!);
-          delete debt.id;
-          delete debt.user;
-          this.data.push(debt);
-          this.total += debt.sum;
-          this.totalChanged.next(this.total);
-          this.dataChanged.next([...this.data]);
+          this.ids1.push(debt.id!);
+          const { id, user, ...pure } = debt;
+          this.data.push(pure);
+          this.total += pure.sum;
         }
         if (debt.user === 2) {
-          this.ids.push(debt.id!);
-          delete debt.id;
-          delete debt.user;
-          this.data2.push(debt);
-          this.total2 += debt.sum;
-          this.total2Changed.next(this.total2);
-          this.data2Changed.next([...this.data2]);
+          this.ids2.push(debt.id!);
+          const { id, user, ...pure } = debt;
+          this.data2.push(pure);
+          this.total2 += pure.sum;
         }
       });
+
+      // эмитим актуальные значения даже если массивы пустые
+      this.dataChanged.next([...this.data]);
+      this.data2Changed.next([...this.data2]);
+      this.totalChanged.next(this.total);
+      this.total2Changed.next(this.total2);
     });
     return this.data.slice();
   }
@@ -73,15 +82,14 @@ export class AddDebtService {
     this.totalChanged.next(this.total);
     if (this.data.length > 8) {
       this.data = this.data.slice(-8);
+      this.ids1 = this.ids1.slice(-8);
     }
     this.dataChanged.next([...this.data]);
     this.apiService.postDebts(date, sum, 1).subscribe((response) => {
-      console.log('Response from API: ', response);
       const data = response as DebtRes;
-      this.ids.push(data.id!);
+      this.ids1.push(data.id!);
     });
 
-    console.log(this.data, newDebt);
   }
 
   addNewDebt2(date: string, sum: number) {
@@ -94,41 +102,53 @@ export class AddDebtService {
     this.total2Changed.next(this.total2);
     if (this.data2.length > 8) {
       this.data2 = this.data2.slice(-8);
+      this.ids2 = this.ids2.slice(-8);
     }
     this.data2Changed.next(this.data2.slice());
     this.apiService.postDebts(date, sum, 2).subscribe((response) => {
-      console.log('Response from API: ', response);
       const data = response as DebtRes;
-      this.ids.push(data.id!);
+      this.ids2.push(data.id!);
     });
 
-    console.log(this.data2, newDebt);
   }
 
   deleteDebts() {
-    // for (const id of this.ids) {
-    //   this.apiService.deleteDebts(id).subscribe((response) => {
-    //     console.log('Response from API: ', response);
-    //   });
-    // }
+    this.apiService.clearAllDebts().subscribe(() => {
+      this.data = [];
+      this.data2 = [];
+      this.ids1 = [];
+      this.ids2 = [];
+      this.total = 0;
+      this.total2 = 0;
+      this.dataChanged.next([]);
+      this.data2Changed.next([]);
+      this.totalChanged.next(0);
+      this.total2Changed.next(0);
+      window.location.reload();
+    });
+  }
 
-    // this.ids.forEach((id) => {
-    //   this.apiService.deleteDebts(id).subscribe((response) => {
-    //     console.log('Response from API: ', response);
-    //   });
-    // });
-    // window.location.reload();
-
-    console.log(this.ids);
-
-    from(this.ids)
-      .pipe(
-        concatMap((id) => this.apiService.deleteDebts(id)),
-        finalize(() => {
-          console.log('All debts are deleted');
-          window.location.reload();
-        })
-      )
-      .subscribe((response) => console.log('Deleted', response));
+  deleteDebt(user: 1 | 2, index: number) {
+    if (user === 1) {
+      const id = this.ids1[index];
+      const sum = this.data[index]?.sum ?? 0;
+      this.apiService.deleteDebts(id).subscribe(() => {
+        this.ids1.splice(index, 1);
+        this.data.splice(index, 1);
+        this.total -= sum;
+        this.totalChanged.next(this.total);
+        this.dataChanged.next([...this.data]);
+      });
+      return;
+    }
+    const id = this.ids2[index];
+    const sum = this.data2[index]?.sum ?? 0;
+    this.apiService.deleteDebts(id).subscribe(() => {
+      this.ids2.splice(index, 1);
+      this.data2.splice(index, 1);
+      this.total2 -= sum;
+      this.total2Changed.next(this.total2);
+      this.data2Changed.next([...this.data2]);
+    });
   }
 }

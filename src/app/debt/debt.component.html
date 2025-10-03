@@ -6,13 +6,17 @@
           <tr tuiThGroup>
             <th tuiTh>Date</th>
             <th tuiTh>Sum</th>
+            <th tuiTh></th>
           </tr>
         </thead>
 
         <tbody tuiTbody [data]="data">
-          <tr *ngFor="let item of data" tuiTr>
+          <tr *ngFor="let item of data; let i = index" tuiTr>
             <td *tuiCell="'balance'" tuiTd>
               {{ item.sum }}
+            </td>
+            <td *tuiCell="'actions'" tuiTd>
+              <button tuiButton type="button" size="s" appearance="secondary" (click)="onDelete(1, i)">X</button>
             </td>
           </tr>
         </tbody>
@@ -43,13 +47,17 @@
           <tr tuiThGroup>
             <th tuiTh>Date</th>
             <th tuiTh>Sum</th>
+            <th tuiTh></th>
           </tr>
         </thead>
 
         <tbody tuiTbody [data]="data2">
-          <tr *ngFor="let item of data2" tuiTr>
+          <tr *ngFor="let item of data2; let i = index" tuiTr>
             <td *tuiCell="'balance'" tuiTd>
               {{ item.sum }}
+            </td>
+            <td *tuiCell="'actions'" tuiTd>
+              <button tuiButton type="button" size="s" appearance="secondary" (click)="onDelete(2, i)">X</button>
             </td>
           </tr>
         </tbody>

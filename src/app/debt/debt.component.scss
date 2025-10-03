@@ -19,6 +19,28 @@ table {
   height: fit-content;
 }
 
+/* Вернуть бордеры у ячеек суммы */
+td[tuiTd][data-tui-cell="balance"],
+th[tuiTh][data-tui-cell="balance"] {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Добавить бордеры у ячеек с кнопкой удаления */
+td[tuiTd][data-tui-cell="actions"],
+th[tuiTh][data-tui-cell="actions"] {
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Явно дорисовать верхнюю границу у первой строки тела таблицы для колонки действий */
+tbody tr:first-child td[tuiTd][data-tui-cell="actions"] {
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Скрыть стандартные бордеры кнопки */
+button[tuiButton] {
+  border: none;
+}
+
 // .icon-btn {
 //   align-self: flex-end;
 // }
