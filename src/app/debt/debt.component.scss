@@ -2,11 +2,7 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  gap: 5rem;
-}
-
-tui-chip {
-  margin-top: 1.5rem;
+  gap: 2rem;
 }
 
 .table-total-box {
@@ -41,10 +37,6 @@ button[tuiButton] {
   border: none;
 }
 
-// .icon-btn {
-//   align-self: flex-end;
-// }
-
 [data-appearance="custom"] {
   color: #fff;
   background-image: linear-gradient(
@@ -61,7 +53,6 @@ button[tuiButton] {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  padding: 1rem 0;
 }
 
 tui-loader {
