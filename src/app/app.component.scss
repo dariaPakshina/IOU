@@ -1,3 +1,9 @@
-* {
-  padding: 1rem;
+.app-shell {
+  box-sizing: border-box;
+}
+
+.app-shell *,
+.app-shell *::before,
+.app-shell *::after {
+  box-sizing: inherit;
 }

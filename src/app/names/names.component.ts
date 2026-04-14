@@ -12,8 +12,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TuiTextfield, TuiButton } from '@taiga-ui/core';
-import { TuiInputModule, TuiTextfieldControllerModule } from '@taiga-ui/legacy';
 import { ApiService } from '../api.service';
 import { Names } from '../names.model';
 import { catchError, of, skip } from 'rxjs';
@@ -22,20 +20,12 @@ import { AddDebtService } from '../add-debt.service';
 @Component({
   selector: 'app-names',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TuiInputModule,
-    TuiTextfield,
-    TuiTextfieldControllerModule,
-    TuiButton,
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './names.component.html',
   styleUrl: './names.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NamesComponent implements OnInit {
-  
-
   apiService = inject(ApiService);
   addDebtService = inject(AddDebtService);
   editingMode = false;
@@ -61,9 +51,7 @@ export class NamesComponent implements OnInit {
     this.lastID = 2;
     this.apiService
       .getNames(2)
-      .pipe(
-        catchError(() => of(null))
-      )
+      .pipe(catchError(() => of(null)))
       .subscribe((response) => {
         if (response) {
           this.namesForm.valueChanges.pipe(skip(1)).subscribe(() => {
@@ -95,9 +83,7 @@ export class NamesComponent implements OnInit {
       name1: this.namesForm.value['name-1']!,
       name2: this.namesForm.value['name-2']!,
     };
-    this.apiService
-      .updateNames(2, newNames)
-      .subscribe();
+    this.apiService.updateNames(2, newNames).subscribe();
 
     this.addDebtService.name1 = newNames.name1;
     this.addDebtService.name2 = newNames.name2;

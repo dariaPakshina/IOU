@@ -1,51 +1,59 @@
 .container {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.75rem;
   gap: 2rem;
+  align-items: start;
 }
 
 .table-total-box {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 0;
+  gap: 0.6rem;
 }
 
-table {
+.table {
   height: fit-content;
+  width: 60%;
+  border-collapse: collapse;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.9em;
 }
 
-/* Вернуть бордеры у ячеек суммы */
-td[tuiTd][data-tui-cell="balance"],
-th[tuiTh][data-tui-cell="balance"] {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.table th,
+.table td {
+  padding: 0.42rem 0.55rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
 }
 
-/* Добавить бордеры у ячеек с кнопкой удаления */
-td[tuiTd][data-tui-cell="actions"],
-th[tuiTh][data-tui-cell="actions"] {
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+.table thead th {
+  font-weight: 600;
+  color: var(--text-1);
+  background: rgba(255, 255, 255, 0.03);
 }
 
-/* Явно дорисовать верхнюю границу у первой строки тела таблицы для колонки действий */
-tbody tr:first-child td[tuiTd][data-tui-cell="actions"] {
-  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+.table tbody tr:last-child td {
+  border-bottom: none;
 }
 
-/* Скрыть стандартные бордеры кнопки */
-button[tuiButton] {
-  border: none;
+.table__cell--balance {
+  width: 100%;
 }
 
-[data-appearance="custom"] {
-  color: #fff;
-  background-image: linear-gradient(
-    43deg,
-    #4158d0 0%,
-    #c850c0 46%,
-    #ffcc70 100%
-  );
-  font-weight: bold;
+.table__cell--date {
+  white-space: nowrap;
+  color: var(--text-2);
+}
+
+.table__cell--actions {
+  width: 3.5rem;
+  text-align: right;
 }
 
 .final-chip {
@@ -53,8 +61,21 @@ button[tuiButton] {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  margin-top: 0.75rem;
 }
 
-tui-loader {
+.loader {
   margin-top: 10rem;
+}
+
+@media (max-width: 540px) {
+  .container {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
 }

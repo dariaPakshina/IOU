@@ -1,40 +1,35 @@
 <div class="container">
   <div class="flex-element">
-    <tui-textfield [tuiTextfieldCleaner]="false">
+    <div class="num-field">
       <input
-        tuiInputNumber
-        [min]="0"
+        class="num-input"
+        type="number"
+        inputmode="numeric"
+        min="0"
         [(ngModel)]="value"
         (keydown.arrowDown)="onStep(-1)"
         (keydown.arrowUp)="onStep(+1)"
       />
 
-      <button
-        class="step-btn"
-        appearance="secondary"
-        size="xs"
-        tuiButton
-        type="button"
-        (click.prevent)="onStep(+100)"
-      >
-        + 100
-      </button>
-
-      <button
-        class="step-btn"
-        appearance="secondary"
-        size="xs"
-        tuiButton
-        type="button"
-        (click.prevent)="onStep(+1000)"
-      >
-        + 1000
-      </button>
-    </tui-textfield>
+      <div class="num-actions">
+        <button
+          class="btn btn--secondary btn--xs step-btn"
+          type="button"
+          (click)="$event.preventDefault(); onStep(+100)"
+        >
+          + 100
+        </button>
+        <button
+          class="btn btn--secondary btn--xs step-btn"
+          type="button"
+          (click)="$event.preventDefault(); onStep(+1000)"
+        >
+          + 1000
+        </button>
+      </div>
+    </div>
     <button
-      class="add-btn"
-      size="s"
-      tuiButton
+      class="btn btn--solid btn--s add-btn"
       type="button"
       (click)="onAddDebt()"
     >
@@ -43,41 +38,36 @@
   </div>
 
   <div class="flex-element">
-    <tui-textfield [tuiTextfieldCleaner]="false">
+    <div class="num-field">
       <input
-        tuiInputNumber
-        [min]="0"
+        class="num-input"
+        type="number"
+        inputmode="numeric"
+        min="0"
         [(ngModel)]="value2"
         (keydown.arrowDown)="onStep2(-1)"
         (keydown.arrowUp)="onStep2(+1)"
       />
 
-      <button
-        class="step-btn"
-        appearance="secondary"
-        size="xs"
-        tuiButton
-        type="button"
-        (click.prevent)="onStep2(+100)"
-      >
-        + 100
-      </button>
-
-      <button
-        class="step-btn"
-        appearance="secondary"
-        size="xs"
-        tuiButton
-        type="button"
-        (click.prevent)="onStep2(+1000)"
-      >
-        + 1000
-      </button>
-    </tui-textfield>
+      <div class="num-actions">
+        <button
+          class="btn btn--secondary btn--xs step-btn"
+          type="button"
+          (click)="$event.preventDefault(); onStep2(+100)"
+        >
+          + 100
+        </button>
+        <button
+          class="btn btn--secondary btn--xs step-btn"
+          type="button"
+          (click)="$event.preventDefault(); onStep2(+1000)"
+        >
+          + 1000
+        </button>
+      </div>
+    </div>
     <button
-      class="add-btn"
-      size="s"
-      tuiButton
+      class="btn btn--solid btn--s add-btn"
       type="button"
       (click)="onAddDebt2()"
     >

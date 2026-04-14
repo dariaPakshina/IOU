@@ -1,83 +1,78 @@
 <div class="all" *ngIf="!loading">
   <div class="container">
     <div class="table-total-box">
-      <table tuiTable class="table" [columns]="columns">
+      <table class="table">
         <thead>
-          <tr tuiThGroup>
-            <th tuiTh>Date</th>
-            <th tuiTh>Sum</th>
-            <th tuiTh></th>
+          <tr>
+            <th>Дата</th>
+            <th>Сумма</th>
+            <th></th>
           </tr>
         </thead>
 
-        <tbody tuiTbody [data]="data">
-          <tr *ngFor="let item of data; let i = index" tuiTr>
-            <td *tuiCell="'balance'" tuiTd>
-              {{ item.sum }}
-            </td>
-            <td *tuiCell="'actions'" tuiTd>
-              <button tuiButton type="button" size="s" appearance="secondary" (click)="onDelete(1, i)">X</button>
+        <tbody>
+          <tr *ngFor="let item of data; let i = index">
+            <td class="table__cell table__cell--date">{{ item.date }}</td>
+            <td class="table__cell table__cell--balance">{{ item.sum }}</td>
+            <td class="table__cell table__cell--actions">
+              <button
+                class="btn btn--secondary btn--xxs"
+                type="button"
+                (click)="onDelete(1, i)"
+              >
+                X
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
-      <tui-chip appearance="accent">
+      <div class="chip chip--accent">
         <div>Итого:</div>
         <div>{{ total }}</div>
-      </tui-chip>
+      </div>
     </div>
 
-    <!-- <button
-      class="icon-btn"
-      appearance="outline"
-      tuiAppearanceMode="checked invalid"
-      iconStart="@tui.calculator"
-      size="m"
-      tuiIconButton
-      type="button"
-      [style.border-radius.%]="100"
-      (click)="onCount()"
-    >
-      Count
-    </button> -->
+    <!-- <button class="icon-btn btn btn--outline btn--m" type="button" (click)="onCount()">Count</button> -->
 
     <div class="table-total-box">
-      <table tuiTable class="table" [columns]="columns2">
+      <table class="table">
         <thead>
-          <tr tuiThGroup>
-            <th tuiTh>Date</th>
-            <th tuiTh>Sum</th>
-            <th tuiTh></th>
+          <tr>
+            <th>Дата</th>
+            <th>Сумма</th>
+            <th></th>
           </tr>
         </thead>
 
-        <tbody tuiTbody [data]="data2">
-          <tr *ngFor="let item of data2; let i = index" tuiTr>
-            <td *tuiCell="'balance'" tuiTd>
-              {{ item.sum }}
-            </td>
-            <td *tuiCell="'actions'" tuiTd>
-              <button tuiButton type="button" size="s" appearance="secondary" (click)="onDelete(2, i)">X</button>
+        <tbody>
+          <tr *ngFor="let item of data2; let i = index">
+            <td class="table__cell table__cell--date">{{ item.date }}</td>
+            <td class="table__cell table__cell--balance">{{ item.sum }}</td>
+            <td class="table__cell table__cell--actions">
+              <button
+                class="btn btn--secondary btn--xxs"
+                type="button"
+                (click)="onDelete(2, i)"
+              >
+                X
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
-      <tui-chip appearance="accent">
+      <div class="chip chip--accent">
         <div>Итого:</div>
         <div>{{ total2 }}</div>
-      </tui-chip>
+      </div>
     </div>
   </div>
   <div class="final-chip">
-    <tui-chip appearance="custom" size="m">
+    <div class="chip chip--gradient chip--m">
       <div>{{ whoOwes }} должен {{ toWhomOwe }}</div>
       <div>{{ final }}</div>
-    </tui-chip>
+    </div>
     <button
-      appearance="secondary"
-      class="to-zero-btn"
-      size="m"
-      tuiButton
+      class="btn btn--secondary btn--m to-zero-btn"
       type="button"
       (click)="onZero()"
     >
@@ -86,4 +81,4 @@
   </div>
 </div>
 
-<tui-loader *ngIf="loading" />
+<div class="loader" *ngIf="loading" aria-label="Loading"></div>

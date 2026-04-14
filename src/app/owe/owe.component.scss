@@ -1,26 +1,34 @@
 .container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  align-items: start;
 }
 
 .flex-element {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
-  max-width: 20rem;
+  max-width: 100%;
+  min-width: 0;
 }
 
-tui-textfield {
+.num-field {
   width: 100%;
-
-  padding: 0.8rem;
+  position: relative;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  overflow: hidden;
 }
 
 .add-btn {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 p {
@@ -29,4 +37,66 @@ p {
 
 .step-btn {
   border-radius: 8px;
+}
+
+.num-input {
+  width: 100%;
+  padding: 0.7rem 6.6rem 0.7rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-1);
+  outline: none;
+}
+
+.num-input:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(65, 88, 208, 0.18);
+}
+
+.num-actions {
+  display: inline-flex;
+  gap: 0.4rem;
+  position: absolute;
+  right: 0.6rem;
+  top: 0;
+  bottom: 0;
+  transform: none;
+  align-items: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.num-actions .step-btn {
+  pointer-events: auto;
+}
+
+.step-btn {
+  font-weight: 500;
+  font-size: 0.8rem;
+  padding: 0.22rem 0.45rem;
+}
+
+@media (max-width: 360px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .num-input {
+    padding-right: 0.7rem;
+  }
+
+  .num-actions {
+    position: static;
+    transform: none;
+    margin-top: 0.5rem;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .num-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 }

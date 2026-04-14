@@ -7,22 +7,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { TuiTable } from '@taiga-ui/addon-table';
 import { AddDebtService } from '../add-debt.service';
 import { Debt } from '../debt.model';
 import { Subscription } from 'rxjs';
-import { TuiChip } from '@taiga-ui/kit';
-import {
-  TuiButton,
-  TuiIcon,
-  TuiLoader,
-  tuiLoaderOptionsProvider,
-  TuiOption,
-} from '@taiga-ui/core';
 
 @Component({
   selector: 'app-debt',
-  imports: [NgForOf, TuiTable, TuiChip, TuiButton, TuiLoader, NgIf],
+  imports: [NgForOf, NgIf],
   templateUrl: './debt.component.html',
   styleUrl: './debt.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,9 +27,6 @@ export class DebtComponent implements OnInit, OnDestroy {
 
   data: Debt[] = [];
   data2: Debt[] = [];
-
-  columns!: any;
-  columns2!: any;
 
   total = 0;
   total2 = 0;
@@ -54,25 +42,18 @@ export class DebtComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
 
-
     this.subscription = this.addDebtService.dataChanged.subscribe(
       (debts: Debt[]) => {
         this.data = [...debts].slice(-5);
         this.cdr.detectChanges();
-        if (debts.length > 0) {
-          this.columns = [...Object.keys(debts[0]), 'actions'];
-        }
-      }
+      },
     );
 
     this.subscription2 = this.addDebtService.data2Changed.subscribe(
       (debts: Debt[]) => {
         this.data2 = [...debts].slice(-5);
         this.cdr.detectChanges();
-        if (debts.length > 0) {
-          this.columns2 = [...Object.keys(debts[0]), 'actions'];
-        }
-      }
+      },
     );
 
     this.subscription3 = this.addDebtService.totalChanged.subscribe(
@@ -80,14 +61,14 @@ export class DebtComponent implements OnInit, OnDestroy {
         this.total = total;
         this.onCount();
         this.cdr.detectChanges();
-      }
+      },
     );
     this.subscription4 = this.addDebtService.total2Changed.subscribe(
       (total: any) => {
         this.total2 = total;
         this.onCount();
         this.cdr.detectChanges();
-      }
+      },
     );
 
     // Инициируем загрузку после подписок, чтобы не потерять первые эмиты
